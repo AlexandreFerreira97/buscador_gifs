@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -14,7 +15,7 @@ class _HomeState extends State<Home> {
   late String _search;
   int _ofset = 0;
 
-  getGifs() async {
+Future<Map> _getGifs() async {
     http.Response response;
 
     if(_search == null)
@@ -23,6 +24,16 @@ class _HomeState extends State<Home> {
     }else{
       response = await http.get('https://api.giphy.com/v1/gifs/search?api_key=CnDnxKe3FkrtnwBqjuxsD2b6vJ05xhAc&q=$_search&limit=25&offset=$_ofset&rating=g&lang=en&bundle=messaging_non_clips' as Uri);
     }
+    return json.decode(response.body);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+
+    _getGifs().then((map) {
+      print(map);
+    });
   }
 
   @override
