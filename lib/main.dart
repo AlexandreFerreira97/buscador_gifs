@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:buscador_gifs/pages/buscador_de_gifs.dart';
+import 'package:buscador_gifs/pages/homePage.dart';
 
 void main() => runApp(const MyApp());
 
