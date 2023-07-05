@@ -44,7 +44,24 @@ Future<Map> _getGifs() async {
         title: Image.network('https://developers.giphy.com/branch/master/static/header-logo-0fec0225d189bc0eae27dac3e3770582.gif'),
         centerTitle: true,
       ),
-      //body: ,
+      backgroundColor: Colors.black,
+      body:const Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Pesquise aqui!',
+                labelStyle: TextStyle(
+                  color: Colors.white,),
+                  border: OutlineInputBorder()
+              ),
+              style: TextStyle(color: Colors.white,fontSize: 18.0),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ) ,
     );
   }
 }
