@@ -17,13 +17,13 @@ class _HomeState extends State<Home> {
   Future<Map> _getGifs() async {
     http.Response response;
 
-    if (_search == null) {
+    if (_search == null || _search.isEmpty) {
       response = await http.get(
-          'https://api.giphy.com/v1/gifs/trending?api_key=CnDnxKe3FkrtnwBqjuxsD2b6vJ05xhAc&limit=20&offset=0&rating=g&bundle=messaging_non_clips'
+          'https://api.giphy.com/v1/gifs/trending?api_key=wusbFwUExpkztfjeMr3QRimPUc4kd1J9&limit=20&rating=G'
               as Uri);
     } else {
       response = await http.get(
-          'https://api.giphy.com/v1/gifs/search?api_key=CnDnxKe3FkrtnwBqjuxsD2b6vJ05xhAc&q=$_search&limit=25&offset=$_ofset&rating=g&lang=en&bundle=messaging_non_clips'
+          'https://api.giphy.com/v1/gifs/search?api_key=wusbFwUExpkztfjeMr3QRimPUc4kd1J9&q=$_search&limit=19&offset=$_ofset&rating=G&lang=en'
               as Uri);
     }
     return json.decode(response.body);
@@ -80,8 +80,11 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   default:
-                    if(snapshot.hasError) return Container();
-                    else return _createGifTable(context,snapshot);
+                    if(snapshot.hasError) {
+                      return Container();
+                    } else {
+                      return _createGifTable(context,snapshot);
+                    }
                 }
               }
             ),
@@ -98,10 +101,12 @@ class _HomeState extends State<Home> {
           crossAxisCount: 2,
           crossAxisSpacing: 10,
         ),
-        itemCount: 4,
+        itemCount: snapshot.data['data'].lenght,
         itemBuilder: (context, index) {
           return GestureDetector(
-            //child: Image.network(src) ,
+            child: Image.network(snapshot.data['data'][index]['images']['fixed_height']['url'],
+            height: 300.0,
+            fit:BoxFit.cover,) ,
           );
         },
       );
