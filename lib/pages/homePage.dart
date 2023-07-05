@@ -38,6 +38,13 @@ Future<Map> _getGifs() async {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Image.network('https://developers.giphy.com/branch/master/static/header-logo-0fec0225d189bc0eae27dac3e3770582.gif'),
+        centerTitle: true,
+      ),
+      //body: ,
+    );
   }
 }
