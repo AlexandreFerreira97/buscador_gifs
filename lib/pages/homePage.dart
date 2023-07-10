@@ -122,9 +122,11 @@ class _HomeState extends State<Home> {
         itemBuilder: (context, index) {
           if(_search == null || index < snapshot.data['data'].length){
             return GestureDetector(
-              child: Image.network(snapshot.data['data'][index]['images']['fixed_height']['url'],
-                height: 300.0,
-                fit:BoxFit.cover,) ,
+              child: FadeInImage.memoryNetwork(
+                  placeholder: null,
+                  image: snapshot.data['data'][index]['images']['fixed_height']['url'],
+                  height:300.0,
+                  fit: BoxFit.cover,) ,
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => GifPage(snapshot.data['data'][index])));
               },
