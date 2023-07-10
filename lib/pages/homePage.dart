@@ -50,17 +50,23 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(10.0),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'Pesquise aqui!',
                   labelStyle: TextStyle(
                     color: Colors.white,
                   ),
                   border: OutlineInputBorder()),
-              style: TextStyle(color: Colors.white, fontSize: 18.0),
+              style: const TextStyle(color: Colors.white, fontSize: 18.0),
               textAlign: TextAlign.center,
+              onSubmitted: (text){
+                setState(() {
+                  _search = text;
+                  _ofset = 0;
+                });
+              },
             ),
           ),
           Expanded(
@@ -94,6 +100,14 @@ class _HomeState extends State<Home> {
     );
   }
 
+  int _getCount(List data){
+    if(_search == null){
+      return data.length;
+    }else{
+      return data.length + 1;
+    }
+  }
+
   Widget _createGifTable(BuildContext context, AsyncSnapshot snapshot){
       return GridView.builder(
         padding: const EdgeInsets.all(10.0),
@@ -101,13 +115,33 @@ class _HomeState extends State<Home> {
           crossAxisCount: 2,
           crossAxisSpacing: 10,
         ),
-        itemCount: snapshot.data['data'].lenght,
+        itemCount: _getCount(snapshot.data['data']),
         itemBuilder: (context, index) {
-          return GestureDetector(
-            child: Image.network(snapshot.data['data'][index]['images']['fixed_height']['url'],
-            height: 300.0,
-            fit:BoxFit.cover,) ,
-          );
+          if(_search == null || index < snapshot.data['data'].length){
+            return GestureDetector(
+              child: Image.network(snapshot.data['data'][index]['images']['fixed_height']['url'],
+                height: 300.0,
+                fit:BoxFit.cover,) ,
+            );
+          }else{
+            return Container(
+              child: GestureDetector(
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add,color: Colors.white, size: 70.0,),
+                    Text('Carregar mais...',
+                      style: TextStyle(color: Colors.white,fontSize: 22.0) ,),
+                  ],
+                ),
+                onTap: (){
+                  setState(() {
+                    _ofset += 19;
+                  });
+                },
+              ),
+            );
+          }
         },
       );
   }
