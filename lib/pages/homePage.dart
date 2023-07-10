@@ -3,7 +3,7 @@ import 'package:buscador_gifs/pages/gif_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-
+import 'package:transparent_image/transparent_image.dart';
 import 'package:share/share.dart';
 
 class Home extends StatefulWidget {
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
           if(_search == null || index < snapshot.data['data'].length){
             return GestureDetector(
               child: FadeInImage.memoryNetwork(
-                  placeholder: null,
+                  placeholder: kTransparentImage,
                   image: snapshot.data['data'][index]['images']['fixed_height']['url'],
                   height:300.0,
                   fit: BoxFit.cover,) ,
